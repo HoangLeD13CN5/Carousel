@@ -11,15 +11,17 @@ import UIKit
 
 class ZoomAndSnapFlowLayout: UICollectionViewFlowLayout {
     
-    let activeDistance: CGFloat = 200
-    let zoomFactor: CGFloat = 0.3
-    
+    static let activeDistance: CGFloat = 200
+    static let zoomFactor: CGFloat = 0.2
+    static let lineSpacing: CGFloat = 40
+    static let itemSizeWidth: CGFloat = 250
+    static let itemSizeHeight: CGFloat = 150
     override init() {
         super.init()
         
         scrollDirection = .horizontal
-        minimumLineSpacing = 40
-        itemSize = CGSize(width: 150, height: 150)
+        minimumLineSpacing = ZoomAndSnapFlowLayout.lineSpacing
+        itemSize = CGSize(width: ZoomAndSnapFlowLayout.itemSizeWidth, height: ZoomAndSnapFlowLayout.itemSizeHeight)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -43,10 +45,10 @@ class ZoomAndSnapFlowLayout: UICollectionViewFlowLayout {
         // Make the cells be zoomed when they reach the center of the screen
         for attributes in rectAttributes where attributes.frame.intersects(visibleRect) {
             let distance = visibleRect.midX - attributes.center.x
-            let normalizedDistance = distance / activeDistance
+            let normalizedDistance = distance / ZoomAndSnapFlowLayout.activeDistance
             
-            if distance.magnitude < activeDistance {
-                let zoom = 1 + zoomFactor * (1 - normalizedDistance.magnitude)
+            if distance.magnitude < ZoomAndSnapFlowLayout.activeDistance {
+                let zoom = 1 + ZoomAndSnapFlowLayout.zoomFactor * (1 - normalizedDistance.magnitude)
                 attributes.transform3D = CATransform3DMakeScale(zoom, zoom, 1)
                 attributes.zIndex = Int(zoom.rounded())
             }

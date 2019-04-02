@@ -32,6 +32,7 @@ class ViewController: UIViewController, iCarouselDataSource, iCarouselDelegate {
         guard let collectionView = collectionView else { fatalError() }
         collectionView.collectionViewLayout = flowLayout
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        self.collectionView?.backgroundView = imageView
     }
     
 
@@ -79,6 +80,13 @@ class ViewController: UIViewController, iCarouselDataSource, iCarouselDelegate {
     
     let flowLayout = ZoomAndSnapFlowLayout()
     var currentIndex = -1
+    
+    let imageView : UIImageView = {
+    let iv = UIImageView()
+    iv.image = UIImage(named:"backgroud")
+    iv.contentMode = .scaleAspectFill
+    return iv
+    }()
 
 
 }
@@ -98,7 +106,7 @@ extension ViewController: UICollectionViewDataSource {
 
 extension ViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let index = Int(scrollView.contentOffset.x/190)
+        let index = Int(scrollView.contentOffset.x/(ZoomAndSnapFlowLayout.itemSizeWidth + ZoomAndSnapFlowLayout.lineSpacing))
         if currentIndex != index {
             self.currentIndex = index
             print("Scroll: \(index)")
