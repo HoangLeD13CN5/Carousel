@@ -51,6 +51,9 @@ class ZoomAndSnapFlowLayout: UICollectionViewFlowLayout {
                 let zoom = 1 + ZoomAndSnapFlowLayout.zoomFactor * (1 - normalizedDistance.magnitude)
                 attributes.transform3D = CATransform3DMakeScale(zoom, zoom, 1)
                 attributes.zIndex = Int(zoom.rounded())
+                attributes.alpha = 1
+            }else {
+                 attributes.alpha = 0.4
             }
         }
         
